@@ -135,13 +135,17 @@ class Modal extends React.PureComponent {
     Object.assign(nameComponent.props, props);
     nameComponent.props.children[0].props.className = 'spotify-title';
     nameComponent.props.children[0].props.children.props.children = this.props.currentTrack.name;
-    nameComponent.props.children[1] = (
+    nameComponent.props.children[1] = (<>
       <PanelSubtext className='spotify-artist'>
         {Messages.USER_ACTIVITY_LISTENING_ARTISTS.format({
           artists: this.props.currentTrack.artists,
           artistsHook: t => t
         })}
       </PanelSubtext>
+      <PanelSubtext className='spotify-artist'>
+        {`on ${this.props.currentTrack.album}`}
+      </PanelSubtext>
+    </>
     );
     return nameComponent;
   }
