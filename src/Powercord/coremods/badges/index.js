@@ -87,17 +87,12 @@ async function injectGuilds () {
 
   inject('pc-badges-guilds-header', GuildHeader.default, 'type', ([ props ], res) => {
     if (cache._guilds[props.guild.id]) {
-      const ogType = res.props.children[0].props.children[0].type;
-      res.props.children[0].props.children[0].type = (props) => {
-        const res = ogType(props);
-        res.props.children.unshift(
-          React.createElement(Badges.Custom, {
-            ...cache._guilds[props.guild.id],
-            tooltipPosition: 'bottom'
-          })
-        );
-        return res;
-      };
+      res.props.children[0].props.children[0].props.children.unshift(
+        React.createElement(Badges.Custom, {
+          ...cache._guilds[props.guild.id],
+          tooltipPosition: 'bottom'
+        })
+      );
     }
     return res;
   });
@@ -118,8 +113,8 @@ async function injectGuilds () {
   const baseUrl = powercord.settings.get('backendURL', WEBSITE);
   get(`${baseUrl}/api/v2/guilds/badges`).then(async res => {
     cache._guilds = res.body;
-    const { container } = await getModule([ 'subscribeTooltipText' ]);
-    forceUpdateElement(`.${container}`);
+    // const { container } = await getModule([ 'subscribeTooltipText' ]);
+    // forceUpdateElement(`.${container}`);
   });
 }
 
